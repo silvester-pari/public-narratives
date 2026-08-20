@@ -1,48 +1,133 @@
 ---
-cover-image: https://workspace-ui-public.gtif-at-sc.hub-otc.eox.at/api/public/share/public-4wazei3y-02/UHTM_Wien/iStock-1173256779.jpg
-date: 2025-01-01
-theme: Sustainable Cities
-tags: remote sensing, surface temperature, Sentinel-3
-provider: OHB Digital Connect
+cover-image: https://workspace-ui-public.gtif-at-ew.hub-cf.eox.at/api/public/share/public-5fc4gif9-83/thumbnails/thumbnail.png
+date: 2026-07-20
+theme: hydrology
+tags: snow, water, hydrology, hydropower, energy production, SCA, melt, mountains, energy, resource
+provider: Sinergise Austria, Waterjade, TIWAG
 ---
 
-# Urban Heat Trend Monitor <!--{ as="img" mode="hero" src="https://workspace-ui-public.gtif-at-sc.hub-otc.eox.at/api/public/share/public-4wazei3y-02/UHTM_Wien/iStock-1173256779.jpg" }-->
-### Turning satellite data into actionable urban cooling strategies <!--{ style="font-size:1.5rem;opacity:0.7;margin-top:1rem;" }-->
+# Snow monitoring <!--{ as="img" data-fallback-src="https://workspace-ui-public.gtif-at-ew.hub-cf.eox.at/api/public/share/public-5fc4gif9-83/figures/IMG_9200.jpeg" mode="hero" src="https://workspace-ui-public.gtif-at-ew.hub-cf.eox.at/api/public/share/public-5fc4gif9-83/figures/IMG_9200.jpeg" }-->
+### for hydropower management <!--{ style="font-size:1rem;opacity:0.7;margin-top:1rem;" }-->
 
-## Problem
+## Background
 
-Cities are increasingly exposed to rising temperatures due to climate change, with urban areas often experiencing significantly higher temperatures than surrounding rural regions. This phenomenon, known as the urban heat island effect, is caused by dense construction materials such as concrete and asphalt that absorb and store heat, reduced vegetation, and limited air circulation between buildings. Additional heat sources such as traffic, air conditioning systems, and industrial activity further intensify the problem [[1]](https://publications.jrc.ec.europa.eu/repository/handle/JRC137891).
+Snow can be regarded as a water bank that stores the resource in winter and releases it during the thawing season. During winter time it is therefore very important to monitor snow evolution.
 
-These elevated temperatures pose serious challenges. Heatwaves have become more frequent and severe, directly impacting public health, particularly for vulnerable populations such as the elderly and those with pre-existing conditions. Importantly, heat exposure is not evenly distributed across a city: some neighbourhoods experience much stronger heating due to differences in land use, green space availability, and urban structure. 
+> *"How much snow is stored in that basin and when will it melt?"*
 
-Despite this growing risk, many cities lack detailed and continuous data to understand where and how heat develops over time. Traditional monitoring approaches are often limited in spatial resolution or coverage, making it difficult to identify local hotspots or long-term trends. Without reliable data, urban planners and policymakers struggle to design targeted mitigation measures such as green infrastructure, cooling strategies, or early warning systems. This creates an urgent need for scalable, data-driven tools that provide consistent, high-resolution insights into urban heat dynamics.
+This question is generally raised by public and private institutions interested in snow for civil or industrial purposes, such as public agencies dealing with civil protection or hydrological balances, and hydropower companies that will eventually harvest water for energy production.
 
-## Proposed solution
+The most important snow variables that are commonly observed are **snow water equivalent** (SWE) and **snow depth** (HS). In recent years new methodologies have emerged in snow monitoring. For example, physically-based models calculate snow evolution by transforming the meteorological forcing into snow accumulation or melting according to the mass and energy balance in the snow pack. At the same time, Earth Observation (EO) techniques have emerged thanks to the availability of open access high temporal and spatial resolution satellite data. However, the approaches for SWE estimation based on EO data only are limited by the current technological maturity of EO based methods making it necessary to use in-situ calibrations. In addition, the presence of vegetation makes it complicated to use remote-sensing data alone.
 
-The Urban Heat Trend Monitor (UHTM) meets this need by providing a range of tools that enable the high-resolution visualisation of heat distribution within a city, the identification of heat trends over several years, and the calculation and display of urban areas with the same heat trend, thereby allowing local hotspots to be identified quickly and intuitively. For each of these areas, a detailed time-series analysis can be accessed, enabling the identification of patterns and extremes over the entire period as well as for specific seasons (e.g. summer). The UHTM service processes its results based on satellite data provided by Copernicus, the European Union’s Earth observation programme. It combines data from ESA’s Copernicus Sentinel-2 and Sentinel-3 satellites with OpenStreetMap elements to provide users with easily interpretable map layers that contain urban climate information. Super-resolution techniques enable the analysis of heat islands and temperature trends at the level of individual city districts.
+![](https://workspace-ui-public.gtif-at-ew.hub-cf.eox.at/api/public/share/public-5fc4gif9-83/figures/Section1.jpeg)
+<p style="text-align: center; font-style: italic; font-size: smaller;">Credit: Maxim Lamare, 2026</p>
 
-The UHTM service has been developed to support a wide range of stakeholders, including urban planners, local authorities, environmental agencies and health authorities. Using the provided information, decision-makers can prioritise measures such as expanding green spaces, adapting building materials or implementing local cooling measures. The service enables cities to move from reactive responses to proactive planning, strengthening climate resilience and improving living conditions for urban populations.
 
-## Service
+## Technology: EO + physically-based model
 
-The UHTM service provides a collection of tools for displaying heat distribution within a city in high resolution, determining heat trends over several years, and calculating and displaying urban areas with the same heat trend, enabling local hotspots to be identified quickly and intuitively. For each of these areas, a detailed time series analysis can be retrieved, enabling identification of patterns and extremes over the entire period as well as for specific periods of the year (e.g. summer).
-The UHTM service uses several key algorithms to transform satellite data into actionable heat insights:
-1.	**Cloud‑free Index Generation**: This algorithm uses optical Sentinel-2 satellite data to replace cloud-covered pixels with the most recent cloud-free data, thereby ensuring continuous and reliable datasets. This results in consistent and gap-free surface indices, such as NDVI and NDBI, which are applied as input for the further processing steps. 
-2.	The **Land Surface Temperature (LST) Downscaling** algorithm improves the coarse 1 km resolution of Sentinel 3 thermal data by modelling the relationship between temperature and land cover characteristics derived from higher resolution indices, such as built‑up areas and surface reflectivity. It uses an empirical model that links LST to the previously processed cloud-free indices at coarse resolution and then applies this relationship to predict LST at finer resolution (e.g. 100 m or higher). The approach is based on a bilinear extension of the TsHARP method, ensuring stable and physically consistent results for urban environments.
-3.	For **Smart Partitioning (Segmentation)** a superpixel clustering algorithm (SLIC) is applied to group neighbouring areas with similar heat trends. It produces spatial zones that reflect homogeneous thermal behaviour, rather than administrative boundaries.
-4.	The **Time Series Analysis (Trend Modelling)** uses generalized additive models to analyse temperature trends over time. It separates effects like long-term trend, seasonality, and daily variation to provide robust and explainable results.
+To solve these problems we have developed a hybrid approach, merging physically-based models with the assimilation of EO images, thus providing a service of snow monitoring at high resolution in near real-time. In particular, we developed a new technology<sup>1</sup> based on a physical approach  initially used in support of hydrological balances in the Italian alpine regions<sup>2,3</sup>. The technology was eventually upgraded through the assimilation of EO data on the snow covered area during the [**ESA eo4alps snow**](https://www.waterjade.com/en/eo4alps-snow/) project. The physical model simulates the snow evolution through a fully-energy balance approach that accounts for the mass and energy fluxes. It reproduces the physical processes affecting the snowpack, like accumulation, compaction and melting, as a result of the observed meteorological evolution. The domain resolution is 250 m, sufficient to account for the full morphological complexity of the terrain, like elevation, aspect and slope, and to replicate the shadowing effects responsible for the large snow heterogeneity in the mountains. The input meteo data originate from [ERA5-Land  reanalysis](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview) and in situ meteo stations, and are then subject to proper downscaling and spatial interpolation procedures. EO-retrieved [snow products from Copernicus](https://land.copernicus.eu/en/products/snow/high-resolution-gap-filled-fractional-snow-cover) are translated in binary **Snow Cover Area** (SCA) maps, reporting the presence of snow on the ground. By thresholding fractional snow cover products, a binary **SCA** (snow-covered/snow-free pixel) can be obtained<sup>4</sup>, as shown in the map below.
 
-The UHTM Service uses a cloud-based, containerized (Docker/Kubernetes) architecture, enabling scalable data processing, standardised APIs, and interactive web-based access.
 
-![](https://workspace-ui-public.gtif-at-sc.hub-otc.eox.at/api/public/share/public-4wazei3y-02/UHTM_Wien/UHTM_Wien.png)
-<p align="left">
-	<em>Figure 1: Urban heat trend monitoring steps: from LST data to local heat trend analysis.</em>
-</p>
+## SCA map <!--{as="eox-map" nav="false" style="width: 100%; height: 500px;" layers='[{"type":"Tile","properties":{"id":"cloudless-2024;:;EPSG:3857","title":"EOxCloudless 2024","visible":true},"source":{"type":"XYZ","url":"https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpeg","projection":"EPSG:3857","attributions":"{ EOxCloudless 2024: <a href=\"//s2maps.eu\" target=\"_blank\">Sentinel-2 cloudless - s2maps.eu</a> by <a href=\"//eox.at\" target=\"_blank\">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2024) }"}},{"type":"Tile","properties":{"id":"SCA-L2-DEMO;:;2023-04-05T00:00:00Z;:;GTIF demo - Snow Covered Area;:;EPSG:3857","title":"GTIF demo - Snow Covered Area"},"source":{"type":"TileWMS","url":"https://sh.dataspace.copernicus.eu/ogc/wms/ad7f199d-76fd-4c7a-963e-38ce889a46e4","projection":"EPSG:4326","tileGrid":{"tileSize":[512,512]},"params":{"LAYERS":["SNOW-COVERED-AREA"],"TILED":true,"TIME":"2023-04-05T00:00:00Z/2023-04-05T23:59:59Z"}}},{"type":"Tile","properties":{"id":"overlay_bright;:;EPSG:3857","title":"Overlay labels","visible":true},"source":{"type":"XYZ","url":"https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.png","projection":"EPSG:3857","attributions":"{ Overlay: Data &copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a href=\"//eox.at\" target=\"_blank\">EOX</a> }"}}]' zoom="11" center=[11.056834041518176,47.198393105087405] projection="" }-->
+#### Snow Covered Area
+Kühtai, 2023-04-05.
 
-## Access
+##
 
-The UHTM service is delivered via a cloud-based platform with an interactive web interface. Users can either access the service directly via a web browser or integrate it into external systems, such as digital twins of cities, using standardised APIs.
+The SCA is then assimilated through a first correction loop that helps the physical model results to comply with the snow line resulted by the satellite data, i.e., the minimum snow cover elevation. This allows to maintain a spatial coherence between the model and the simulation and to correctly follow the melting phase. 
 
-## Provider
+The physical model is improved by assimilating EO-retrieved SCA maps to correct two processes:
 
-The *Urban Heat Trend Monitor* service was developed by [OHB Digital Connect GmbH](https://ohb-dc.de/en/earth-observation-solutions/)  as part of the *BalticGTIF* and *GTIF-AT SC* projects for the *Sustainable Cities* priority area of the ESA’s ***Green Transition Information Factory*** (GTIF) programme [[2]](https://gtif.esa.int).
+*__The precipitation process__*
+
+This process forces the physical model to change the input temperature in order to mimic the EO-retrieved SCA (see figure below). Thanks to this approach, any temperature bias present in the input data (such as the one present in ERA5 reanalyses, as reported by Dalla Torre et al., 2024 <sup>5</sup> ) can be corrected during the simulation to accurately simulate the mass during a snowfall.
+
+<img 
+  src="https://workspace-ui-public.gtif-at-ew.hub-cf.eox.at/api/public/share/public-5fc4gif9-83/figures/SCA.jpeg" 
+  alt="SCA modelling process" 
+  style="width: 80%; display: block; margin: 0 auto;" 
+/>
+<p style="text-align: center; font-style: italic; font-size: smaller;">Upper Panel: EO SCA map (left), simulated SCA map (center) and comparison (right) between the two before the assimilation. Lower Panel: EO SCA map (left), simulated SCA map (center) and comparison (right) between the two after the assimilation of EO-retrieved SCA for temperature correction during a snowfall.</p>
+
+*__The melting process__*
+
+This process forces the model to change the melting rate in order to mimic the EO-retrieved SCA (see figure below). Thanks to this approach, a more accurate snowpack evolution and melt generation is granted during the melting season (Dall’Amico et al., 2025<sup>6</sup>).
+
+<img 
+  src="https://workspace-ui-public.gtif-at-ew.hub-cf.eox.at/api/public/share/public-5fc4gif9-83/figures/Melt_correction.jpeg"
+  alt="Melt correction process" 
+  style="width: 80%; display: block; margin: 0 auto;" 
+/>
+<p style="text-align: center; font-style: italic; font-size: smaller;">Upper Panel: EO SCA map (left), simulated SCA map (center) and comparison (right) between the two before the assimilation. Lower Panel: EO SCA map (left), simulated SCA map (center) and comparison (right) between the two after the assimilation of EO-retrieved SCA for melting rate correction.</p>
+
+Within selected basins in Austria, a further **correction loop** has been activated using in situ snow data. The assimilation procedure derives the solid precipitation in the accumulation events  thus improving the overall mass balance.
+
+## Advantages of the service
+
+The [**Waterjade**](https://waterjade.com/en/homepage/) approach allows for high accuracy and coherence of snow patterns in complex terrains. The service does not require the survey of any in-situ snow depth or density measurements, thus avoiding personnel costs and liability burdens due to avalanche hazard. 
+
+
+| ![](https://workspace-ui-public.gtif-at-ew.hub-cf.eox.at/api/public/share/public-5fc4gif9-83/figures/accuracy.png) | ![](https://workspace-ui-public.gtif-at-ew.hub-cf.eox.at/api/public/share/public-5fc4gif9-83/figures/campaign.png) |![](https://workspace-ui-public.gtif-at-ew.hub-cf.eox.at/api/public/share/public-5fc4gif9-83/figures/time.png)|
+|---|---|---|
+|2x better **accuracy** compared with state of the art|No campaigns are required with consequent **60% cost savings** |**Real-time** operation with little latency|
+| ![](https://workspace-ui-public.gtif-at-ew.hub-cf.eox.at/api/public/share/public-5fc4gif9-83/figures/back.png) | ![](https://workspace-ui-public.gtif-at-ew.hub-cf.eox.at/api/public/share/public-5fc4gif9-83/figures/anomaly.png) |![](https://workspace-ui-public.gtif-at-ew.hub-cf.eox.at/api/public/share/public-5fc4gif9-83/figures/forward.png)|
+|**Reanalysis** up to 30 years in the past |**Anomaly detection** with respect to the past years |**Forecast** of snowfall, snowmelt and water inflow|
+
+## Snow Products Description
+
+The modeling chain used for the snow monitoring and reanalysis service is based on the methodology used for the DTA project, and described by Dall’Amico et al. (2025)<sup>6</sup>. Furthermore, the EO-retrieved SCA assimilation has been used to correct model output.
+
+
+## Discover the products <!--{ as="eox-map" mode="tour" nav="false" }-->
+
+### <!--{ layers='[{"type":"Tile","properties":{"id":"cloudless-2024;:;EPSG:3857","title":"EOxCloudless 2024","visible":true},"source":{"type":"XYZ","url":"https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpeg","projection":"EPSG:3857","attributions":"{ EOxCloudless 2024: <a href=\"//s2maps.eu\" target=\"_blank\">Sentinel-2 cloudless - s2maps.eu</a> by <a href=\"//eox.at\" target=\"_blank\">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2024) }"}},{"type":"Tile","properties":{"id":"SCA-L2-DEMO;:;2022-11-19T00:00:00Z;:;GTIF demo - Snow Covered Area;:;EPSG:3857","title":"GTIF demo - Snow Covered Area"},"source":{"type":"TileWMS","url":"https://sh.dataspace.copernicus.eu/ogc/wms/ad7f199d-76fd-4c7a-963e-38ce889a46e4","projection":"EPSG:4326","tileGrid":{"tileSize":[512,512]},"params":{"LAYERS":["SNOW-COVERED-AREA"],"TILED":true,"TIME":"2022-11-19T00:00:00Z/2022-11-19T23:59:59Z"}}},{"type":"Tile","properties":{"id":"overlay_bright;:;EPSG:3857","title":"Overlay labels","visible":true},"source":{"type":"XYZ","url":"https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.png","projection":"EPSG:3857","attributions":"{ Overlay: Data &copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a href=\"//eox.at\" target=\"_blank\">EOX</a> }"}}]' zoom="11" center=[10.762037148342197,46.9667809200632] projection="" animationOptions={duration:500}}-->
+#### Snow Cover Area (SCA)
+
+Kaunertal, 19<sup>th</sup> November 2022.
+
+*The products for the 2022/2023 winter season have been generated by the SnowMaps processing chain, built on the GEOtop physical model, which combines reanalysis weather data, local weather-station and snow-gauge measurements, and snow-cover information derived from Sentinel-2 satellite, following the approach of Dall’Amico et al. (2025).*
+
+### <!--{ layers='[{"type":"Tile","properties":{"id":"cloudless-2024;:;EPSG:3857","title":"EOxCloudless 2024","visible":true},"source":{"type":"XYZ","url":"https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpeg","projection":"EPSG:3857","attributions":"{ EOxCloudless 2024: <a href=\"//s2maps.eu\" target=\"_blank\">Sentinel-2 cloudless - s2maps.eu</a> by <a href=\"//eox.at\" target=\"_blank\">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2024) }"},"visible":true},{"type":"Tile","properties":{"id":"SWE-L2-DEMO;:;2023-03-05T00:00:00Z;:;Snow Water Equivalent (2022–2023);:;EPSG:3857","title":"Snow Water Equivalent (2022–2023)"},"source":{"type":"TileWMS","url":"https://sh.dataspace.copernicus.eu/ogc/wms/ad7f199d-76fd-4c7a-963e-38ce889a46e4","projection":"EPSG:4326","tileGrid":{"tileSize":[512,512]},"params":{"LAYERS":["SWE"],"TILED":true,"TIME":"2023-03-05T00:00:00Z/2023-03-05T23:59:59Z"}}},{"type":"Tile","properties":{"id":"overlay_bright;:;EPSG:3857","title":"Overlay labels","visible":true},"source":{"type":"XYZ","url":"https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.png","projection":"EPSG:3857","attributions":"{ Overlay: Data &copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a href=\"//eox.at\" target=\"_blank\">EOX</a> }"}}]' zoom="12.27541153690887" center=[11.641649455583332,47.46463018086294] projection="" animationOptions={duration:500}}-->
+
+#### Snow Water Equivalent (SWE)
+
+Achensee, 5<sup>th</sup> March 2023.
+
+*The products for the 2022/2023 winter season have been generated by the SnowMaps processing chain, built on the GEOtop physical model, which combines reanalysis weather data, local weather-station and snow-gauge measurements, and snow-cover information derived from Sentinel-2 satellite, following the approach of Dall’Amico et al. (2025).*
+
+### <!--{ layers='[{"type":"Tile","properties":{"id":"terrain-light;:;EPSG:3857","title":"Terrain light","visible":true},"source":{"type":"XYZ","url":"https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/terrain-light_3857/default/g/{z}/{y}/{x}.jpeg","projection":"EPSG:3857","attributions":"{ Terrain light: Data &copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors and <a href=\"//maps.eox.at/#data\" target=\"_blank\">others</a>, Rendering &copy; <a href=\"http://eox.at\" target=\"_blank\">EOX</a> }"},"visible":true},{"type":"Tile","properties":{"id":"HS-L2-DEMO;:;2022-11-05T00:00:00Z;:;Snow Height (2022–2023);:;EPSG:3857","title":"Snow Height (2022–2023)"},"source":{"type":"TileWMS","url":"https://sh.dataspace.copernicus.eu/ogc/wms/ad7f199d-76fd-4c7a-963e-38ce889a46e4","projection":"EPSG:4326","tileGrid":{"tileSize":[512,512]},"params":{"LAYERS":["HS"],"TILED":true,"TIME":"2022-11-05T00:00:00Z/2022-11-05T23:59:59Z"}}},{"type":"Tile","properties":{"id":"overlay_bright;:;EPSG:3857","title":"Overlay labels","visible":true},"source":{"type":"XYZ","url":"https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.png","projection":"EPSG:3857","attributions":"{ Overlay: Data &copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a href=\"//eox.at\" target=\"_blank\">EOX</a> }"}}]' zoom="12.78207820357554" center=[10.995231086617766,47.20215191710781] projection="" animationOptions={duration:500}}-->
+
+
+#### Snow Height (HS)
+
+Kühtai, 5<sup>th</sup> November 2022.
+
+*The products for the 2022/2023 winter season have been generated by the SnowMaps processing chain, built on the GEOtop physical model, which combines reanalysis weather data, local weather-station and snow-gauge measurements, and snow-cover information derived from Sentinel-2 satellite, following the approach of Dall’Amico et al. (2025).*
+
+### <!--{ layers='[{"type":"Tile","properties":{"id":"cloudless-2024;:;EPSG:3857","title":"EOxCloudless 2024","visible":true},"source":{"type":"XYZ","url":"https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/s2cloudless-2024_3857/default/g/{z}/{y}/{x}.jpeg","projection":"EPSG:3857","attributions":"{ EOxCloudless 2024: <a href=\"//s2maps.eu\" target=\"_blank\">Sentinel-2 cloudless - s2maps.eu</a> by <a href=\"//eox.at\" target=\"_blank\">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2024) }"}},{"type":"Tile","properties":{"id":"SNWMLT-L2-DEMO;:;2023-04-30T00:00:00Z;:;Snowmelt (2022–2023);:;EPSG:3857","title":"Snowmelt (2022–2023)"},"source":{"type":"TileWMS","url":"https://sh.dataspace.copernicus.eu/ogc/wms/ad7f199d-76fd-4c7a-963e-38ce889a46e4","projection":"EPSG:4326","tileGrid":{"tileSize":[512,512]},"params":{"LAYERS":["SNOW_MELTING"],"TILED":true,"TIME":"2023-04-30T00:00:00Z/2023-04-30T23:59:59Z"}}},{"type":"Tile","properties":{"id":"overlay_bright;:;EPSG:3857","title":"Overlay labels","visible":true},"source":{"type":"XYZ","url":"https://{a-e}.s2maps-tiles.eu/wmts/1.0.0/overlay_base_bright_3857/default/g/{z}/{y}/{x}.png","projection":"EPSG:3857","attributions":"{ Overlay: Data &copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors, Made with Natural Earth, Rendering &copy; <a href=\"//eox.at\" target=\"_blank\">EOX</a> }"}}]' zoom="11.558744870242208" center=[10.73439566570254,46.938129615189496] projection="" animationOptions={duration:500}}-->
+
+#### Snow Melt (SM)
+
+Kaunertal, 30<sup>th</sup> April 2023.
+
+*The products for the 2022/2023 winter season have been generated by the SnowMaps processing chain, built on the GEOtop physical model, which combines reanalysis weather data, local weather-station and snow-gauge measurements, and snow-cover information derived from Sentinel-2 satellite, following the approach of Dall’Amico et al. (2025).*
+
+## References
+
+[1] Dall’Amico, M., Endrizzi S. and Tasin S. (2018). Mysnowmaps: operative high-resolution real-time snow mapping, Proceedings of the International Snow Science Workshop, Innsbruck, 328-332
+
+[2] Endrizzi S., Gruber S., Dall'Amico M. and Rigon R. (2014), GEOtop 2.0: simulating the combined energy and water balance at and below the land surface accounting for soil freezing, snow cover and terrain effects, Geosci. Model Dev., 7, 2831-2857. Disponibile su: http://www.geosci-model-dev.net/7/2831/2014/ 
+
+[3] Dall'Amico M., Zambon F., Cagnati A., Crepaz A. and Endrizzi S. (2017): Realizzazione mappe di innevamento, Neve e Valanghe 83, AINEVA. https://www.aineva.it/wp-content/uploads/Pubblicazioni/Rivista83/nv83_3.pdf
+
+[4] García-García, A., Stradiotti, P., Di Paolo, F., Filippucci, P., Fischer, M., Orság, M., ... & Samaniego, L. (2026). Intercomparison of Earth Observation products for hyper-resolution hydrological modelling over Europe. Remote Sensing of Environment, 333, 115131.
+
+[5] Dalla Torre, D., Di Marco, N., Menapace, A., Avesani, D., Righetti, M., & Majone, B. (2024). Suitability of ERA5-Land reanalysis dataset for hydrological modelling in the Alpine region. Journal of Hydrology: Regional Studies, 52, 101718.
+
+[6] Dall’Amico, M., Tasin, S., Di Paolo, F. et al. 30-years (1991-2021) Snow Water Equivalent Dataset in the Po River District, Italy. Sci Data 12, 374 (2025). https://doi.org/10.1038/s41597-025-04633-5
+
+## Contacts
+
+Interested in using the Waterjade snow service for your application? Contact the team for more information about pricing and availability [**via email**](mailto:info@waterjade.com) or through the [**website contact form**](https://waterjade.com/en/contacts/).
+
+<img alt="Waterjade logo" width="755" height="134" src="https://workspace-ui-public.gtif-at-ew.hub-cf.eox.at/api/public/share/public-5fc4gif9-83/figures/waterjade-logo.png"/>
